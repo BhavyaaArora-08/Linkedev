@@ -85,7 +85,9 @@ router.post(
       }
 
       const token = await user.generateAuthToken();
-      res.status(200).json({ msg: "User logged in successfully!", token });
+      res
+        .status(200)
+        .json({ msg: "User logged in successfully!", user, token });
     } catch (e) {
       res.status(500).send({ error: e || "Server error" });
     }

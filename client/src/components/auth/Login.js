@@ -1,7 +1,8 @@
 import React, { Fragment, useState, useEffect } from "react";
-// import { connect } from "react-redux";
+import { connect } from "react-redux";
 import { Link } from "react-router-dom";
-import { v4 as uuidv4 } from "uuid";
+// import { v4 as uuidv4 } from "uuid";
+import { loginUser } from "../../redux/actions/auth";
 
 import { setAlert } from "../../redux/actions/alert";
 
@@ -20,12 +21,13 @@ const Login = (props) => {
 
   const onChange = (e) => {
     setFormData({ ...formData, [e.target.name]: e.target.value });
+    console.log(email, password);
   };
 
   const onSubmit = (e) => {
     e.preventDefault();
-    const id = uuidv4();
-    setAlert("success", "Logged In successfully!", id);
+    // const id = uuidv4();
+    props.loginUser({ email, password });
   };
   return (
     <Fragment>
@@ -36,6 +38,7 @@ const Login = (props) => {
       <form onSubmit={onSubmit} className="form" action="dashboard.html">
         <div className="form-group">
           <input
+            onChange={onChange}
             type="email"
             placeholder="Email Address"
             name="email"
@@ -64,4 +67,4 @@ const Login = (props) => {
   );
 };
 
-export default Login;
+export default connect(null, { setAlert, loginUser })(Login); // will return us a new component
