@@ -45,13 +45,13 @@ router.post(
 
       // Generate a token for the user
       const newUser = await new User({ name, email, password, avatar });
-      const token = newUser.generateAuthToken();
+      const token = await newUser.generateAuthToken();
 
       // Register user
       await newUser.save();
 
       // Send msg to client
-      res.status(201).send({ user: newUser });
+      res.status(201).send({ user: newUser, token });
     } catch (e) {
       res.status(500).send({ error: e || "Server error" });
     }

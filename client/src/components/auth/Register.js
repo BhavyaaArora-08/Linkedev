@@ -1,7 +1,12 @@
-import React, { Fragment, useState } from "react";
+import React, { Fragment, useState, useEffect } from "react";
+import { connect } from "react-redux";
 import { Link } from "react-router-dom";
+import { setAlert } from "../../redux/actions/alert";
+import { register } from "../../redux/actions/auth";
+import PropTypes from "prop-types";
+import { v4 as uuidv4 } from "uuid";
 
-const Register = () => {
+const Register = (props) => {
   const [formData, setFormData] = useState({
     name: "",
     email: "",
@@ -9,7 +14,10 @@ const Register = () => {
     password2: "",
   });
 
-  //   const { name, email, password, password2 } = formData;
+  const { name, email, password, password2 } = formData;
+  // useEffect(() => {
+  //   removeAllAlerts();
+  // }, []);
 
   const onChange = (e) => {
     setFormData({ ...formData, [e.target.name]: e.target.value });
@@ -17,11 +25,12 @@ const Register = () => {
 
   const onSubmit = (e) => {
     e.preventDefault();
+    const id = uuidv4();
+
     if (formData.password !== formData.password2) {
-      alert("Passwords don't match");
-      console.log(formData.password, formData.password2);
+      props.setAlert("danger", "Passwords don't match", id);
     } else {
-      console.log("Success");
+      props.register({ name, password, email });
     }
   };
 
@@ -39,7 +48,7 @@ const Register = () => {
             name="name"
             value={formData.name}
             onChange={onChange}
-            required
+            // required
           />
         </div>
         <div className="form-group">
@@ -60,7 +69,7 @@ const Register = () => {
             type="password"
             placeholder="Password"
             name="password"
-            minLength="6"
+            // minLength="6"
             value={formData.password}
             onChange={onChange}
           />
@@ -70,7 +79,7 @@ const Register = () => {
             type="password"
             placeholder="Confirm Password"
             name="password2"
-            minLength="6"
+            // minLength="6"
             value={formData.password2}
             onChange={onChange}
           />
@@ -84,4 +93,9 @@ const Register = () => {
   );
 };
 
-export default Register;
+Register.propTypes = {
+  setAlert: PropTypes.func.isRequired,
+  register: PropTypes.func.isRequired,
+};
+
+export default connect(null, { setAlert, register })(Register);

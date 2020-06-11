@@ -1,7 +1,11 @@
-import React, { Fragment, useState } from "react";
+import React, { Fragment, useState, useEffect } from "react";
+// import { connect } from "react-redux";
 import { Link } from "react-router-dom";
+import { v4 as uuidv4 } from "uuid";
 
-const Login = () => {
+import { setAlert } from "../../redux/actions/alert";
+
+const Login = (props) => {
   const [formData, setFormData] = useState({
     email: "",
     password: "",
@@ -9,17 +13,22 @@ const Login = () => {
 
   const { email, password } = formData;
 
+  // useEffect(() => {
+  //   console.log("hey");
+  //   removeAlert();
+  // }, []);
+
   const onChange = (e) => {
     setFormData({ ...formData, [e.target.name]: e.target.value });
   };
 
   const onSubmit = (e) => {
     e.preventDefault();
-    alert("success");
+    const id = uuidv4();
+    setAlert("success", "Logged In successfully!", id);
   };
   return (
     <Fragment>
-      <div className="alert alert-danger">Invalid credentials</div>
       <h1 className="large text-primary">Sign In</h1>
       <p className="lead">
         <i className="fas fa-user"></i> Sign into Your Account

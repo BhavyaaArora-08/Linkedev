@@ -27,7 +27,8 @@
     "redux": "^4.0.5",
     "redux-devtools-extension": "^2.13.8",
     "redux-thunk": "^2.3.0",
-    "request": "^2.88.2"
+    "request": "^2.88.2",
+    "uuid": "^8.1.0"
   },
   "devDependencies": {
     "concurrently": "^5.2.0"
