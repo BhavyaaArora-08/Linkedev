@@ -1,6 +1,6 @@
 import React, { Fragment, useState, useEffect } from "react";
 import { connect } from "react-redux";
-import { Link } from "react-router-dom";
+import { Link, Redirect } from "react-router-dom";
 import { setAlert } from "../../redux/actions/alert";
 import { register } from "../../redux/actions/auth";
 import PropTypes from "prop-types";
@@ -18,6 +18,11 @@ const Register = (props) => {
   // useEffect(() => {
   //   removeAllAlerts();
   // }, []);
+
+  // redirect if logged in
+  if (props.isAuthorized) {
+    return <Redirect to="/dashboard" />;
+  }
 
   const onChange = (e) => {
     setFormData({ ...formData, [e.target.name]: e.target.value });
@@ -98,4 +103,10 @@ Register.propTypes = {
   register: PropTypes.func.isRequired,
 };
 
-export default connect(null, { setAlert, register })(Register);
+const mapStateToProps = (state, props) => {
+  return {
+    isAuthorized: state.auth.isAuthenticated,
+  };
+};
+
+export default connect(mapStateToProps, { setAlert, register })(Register);

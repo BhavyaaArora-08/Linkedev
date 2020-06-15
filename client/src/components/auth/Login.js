@@ -1,6 +1,6 @@
 import React, { Fragment, useState, useEffect } from "react";
 import { connect } from "react-redux";
-import { Link } from "react-router-dom";
+import { Link, Redirect } from "react-router-dom";
 // import { v4 as uuidv4 } from "uuid";
 import { loginUser } from "../../redux/actions/auth";
 
@@ -29,6 +29,12 @@ const Login = (props) => {
     // const id = uuidv4();
     props.loginUser({ email, password });
   };
+
+  // redirect if logged in
+  if (props.isAuthorized) {
+    return <Redirect to="/dashboard" />;
+  }
+
   return (
     <Fragment>
       <h1 className="large text-primary">Sign In</h1>
@@ -67,4 +73,10 @@ const Login = (props) => {
   );
 };
 
-export default connect(null, { setAlert, loginUser })(Login); // will return us a new component
+const mapStateToProps = (state, props) => {
+  return {
+    isAuthorized: state.auth.isAuthenticated,
+  };
+};
+
+export default connect(mapStateToProps, { setAlert, loginUser })(Login); // will return us a new component

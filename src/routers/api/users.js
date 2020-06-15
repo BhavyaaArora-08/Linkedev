@@ -53,7 +53,7 @@ router.post(
       // Send msg to client
       res.status(201).send({ user: newUser, token });
     } catch (e) {
-      res.status(500).send({ error: e || "Server error" });
+      res.status(500).send({ errors: [{ msg: "Unable to Register" }] });
     }
   }
 );
@@ -89,7 +89,9 @@ router.post(
         .status(200)
         .json({ msg: "User logged in successfully!", user, token });
     } catch (e) {
-      res.status(500).send({ error: e || "Server error" });
+      res
+        .status(500)
+        .send({ errors: [{ msg: "Incorrect usernam/password field" }] });
     }
   }
 );
