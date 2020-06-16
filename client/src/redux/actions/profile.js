@@ -62,29 +62,54 @@ export const createProfile = (formData, history, edit = false) => async (
   }
 };
 
-export const addEducation = (token, body) => async (dispatch) => {
+export const addExperience = (body) => async (dispatch) => {
   const config = {
     headers: {
-      "Content-Type": "apllication/json",
-      "x-auth-token": token,
+      "Content-Type": "application/json",
     },
   };
 
   try {
     const res = await axios.put("/api/profile/experience", body, config);
-    console.log(res.data);
+    dispatch({ type: GET_PROFILE, payload: res.data });
+    dispatch(setAlert("success", "Experience Added"));
   } catch (err) {
-    if (err) {
-      const errors = err.response.data.errors;
-      console.log(errors);
-      if (errors) {
-        errors.forEach((error) => {
-          console.log(error);
-          dispatch(setAlert("danger", error.msg, uuidv4()));
-        });
-      }
-    } else {
-      dispatch(setAlert("danger", "Server Error", uuidv4()));
+    const errors = err.response.data.errors;
+    if (errors) {
+      errors.forEach((error) => {
+        console.log(error);
+        dispatch(setAlert("danger", error.msg, uuidv4()));
+      });
     }
+    dispatch({
+      type: PROFILE_ERROR,
+      payload: { msg: err.response.statusText, status: err.response.status },
+    });
+  }
+};
+
+export const addEducation = (body) => async (dispatch) => {
+  const config = {
+    headers: {
+      "Content-Type": "application/json",
+    },
+  };
+
+  try {
+    const res = await axios.put("/api/profile/education", body, config);
+    dispatch({ type: GET_PROFILE, payload: res.data });
+    dispatch(setAlert("success", "Education Added"));
+  } catch (err) {
+    const errors = err.response.data.errors;
+    if (errors) {
+      errors.forEach((error) => {
+        console.log(error);
+        dispatch(setAlert("danger", error.msg, uuidv4()));
+      });
+    }
+    dispatch({
+      type: PROFILE_ERROR,
+      payload: { msg: err.response.statusText, status: err.response.status },
+    });
   }
 };

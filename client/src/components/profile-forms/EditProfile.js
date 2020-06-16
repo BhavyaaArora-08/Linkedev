@@ -28,7 +28,7 @@ const EditProfile = ({
     getCurrentProfile();
 
     setFormData({
-      company: loading || !userProfile.company ? " " : userProfile.company,
+      company: loading || !userProfile.company ? "" : userProfile.company,
       website: loading || !userProfile.website ? "" : userProfile.website,
       status: loading || !userProfile.status ? "" : userProfile.status,
       location: loading || !userProfile.location ? "" : userProfile.location,

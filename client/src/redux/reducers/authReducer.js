@@ -17,6 +17,12 @@ const initialState = {
 
 export default (state = initialState, action) => {
   switch (action.type) {
+    case "LOADING_USER": {
+      return {
+        ...state,
+        loading: true,
+      };
+    }
     case USER_LOADED: {
       return {
         ...state,

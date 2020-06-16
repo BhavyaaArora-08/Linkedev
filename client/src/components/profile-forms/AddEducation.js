@@ -1,7 +1,38 @@
-import React from "react";
+import React, { useState } from "react";
 import { Link } from "react-router-dom";
+import { addEducation } from "../../redux/actions/profile";
+import { connect } from "react-redux";
 
-const AddEducation = () => {
+const AddEducation = (props) => {
+  const [formdata, updateFormdata] = useState({
+    school: "",
+    degree: "",
+    fieldOfStudy: "",
+    from: "",
+    to: null,
+    current: false,
+    description: "",
+  });
+
+  const {
+    school,
+    degree,
+    fieldOfStudy,
+    from,
+    to,
+    current,
+    description,
+  } = formdata;
+
+  const onChange = (e) => {
+    updateFormdata({ ...formdata, [e.target.name]: e.target.value });
+  };
+
+  const onSubmit = (e) => {
+    e.preventDefault();
+    props.addEducation(formdata);
+  };
+
   return (
     <div>
       <h1 className="large text-primary">Add Your Education</h1>
@@ -10,42 +41,57 @@ const AddEducation = () => {
         that you have attended
       </p>
       <small>* = required field</small>
-      <form className="form">
+      <form onSubmit={onSubmit} className="form">
         <div className="form-group">
           <input
+            onChange={onChange}
             type="text"
             placeholder="* School or Bootcamp"
             name="school"
-            required
+            value={school}
           />
         </div>
         <div className="form-group">
           <input
+            onChange={onChange}
             type="text"
             placeholder="* Degree or Certificate"
             name="degree"
-            required
+            value={degree}
           />
         </div>
         <div className="form-group">
-          <input type="text" placeholder="Field Of Study" name="fieldofstudy" />
+          <input
+            onChange={onChange}
+            type="text"
+            placeholder="Field Of Study"
+            name="fieldOfStudy"
+            value={fieldOfStudy}
+          />
         </div>
         <div className="form-group">
           <h4>From Date</h4>
-          <input type="date" name="from" />
+          <input onChange={onChange} value={from} type="date" name="from" />
         </div>
         <div className="form-group">
           <p>
-            <input type="checkbox" name="current" value="" /> Current School or
-            Bootcamp
+            <input
+              onChange={onChange}
+              type="checkbox"
+              name="current"
+              value={current}
+            />{" "}
+            Current School or Bootcamp
           </p>
         </div>
         <div className="form-group">
           <h4>To Date</h4>
-          <input type="date" name="to" />
+          <input onChange={onChange} value={to} type="date" name="to" />
         </div>
         <div className="form-group">
           <textarea
+            value={description}
+            onChange={onChange}
             name="description"
             cols="30"
             rows="5"
@@ -61,4 +107,4 @@ const AddEducation = () => {
   );
 };
 
-export default AddEducation;
+export default connect(null, { addEducation })(AddEducation);
