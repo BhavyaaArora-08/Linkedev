@@ -129,11 +129,12 @@ router.post(
 
       const id = req.user.id;
       let profile = await Profile.findOne({ user: id });
+
       if (profile) {
         // update
         profile = await Profile.findOneAndUpdate(
           { user: id },
-          { profileFields },
+          { $set: profileFields },
           { new: true }
         );
         res.json(profile);

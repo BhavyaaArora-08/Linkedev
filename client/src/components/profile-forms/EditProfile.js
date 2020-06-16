@@ -29,26 +29,24 @@ const EditProfile = ({
 
     setFormData({
       company: loading || !userProfile.company ? " " : userProfile.company,
-      website: loading || !userProfile.website ? " " : userProfile.website,
-      status: loading || !userProfile.status ? " " : userProfile.status,
-      location: loading || !userProfile.location ? " " : userProfile.location,
+      website: loading || !userProfile.website ? "" : userProfile.website,
+      status: loading || !userProfile.status ? "" : userProfile.status,
+      location: loading || !userProfile.location ? "" : userProfile.location,
       skills:
-        loading || !userProfile.skills ? " " : userProfile.skills.join(","),
+        loading || !userProfile.skills ? "" : userProfile.skills.join(","),
       githubusername:
         loading || !userProfile.githubusername
-          ? " "
+          ? ""
           : userProfile.githubusername,
-      bio: loading || !userProfile.bio ? " " : userProfile.bio,
-      twitter:
-        loading || !userProfile.social ? " " : userProfile.social.twitter,
+      bio: loading || !userProfile.bio ? "" : userProfile.bio,
+      twitter: loading || !userProfile.social ? "" : userProfile.social.twitter,
       facebook:
-        loading || !userProfile.social ? " " : userProfile.social.facebook,
+        loading || !userProfile.social ? "" : userProfile.social.facebook,
       linkedin:
-        loading || !userProfile.social ? " " : userProfile.social.linkedin,
-      youtube:
-        loading || !userProfile.social ? " " : userProfile.social.youtube,
+        loading || !userProfile.social ? "" : userProfile.social.linkedin,
+      youtube: loading || !userProfile.social ? "" : userProfile.social.youtube,
       instagram:
-        loading || !userProfile.social ? " " : userProfile.social.instagram,
+        loading || !userProfile.social ? "" : userProfile.social.instagram,
     });
   }, []);
 
@@ -75,7 +73,7 @@ const EditProfile = ({
 
   const onSubmit = (e) => {
     e.preventDefault();
-    createProfile(formData, history);
+    createProfile(formData, history, true);
   };
 
   return (
@@ -241,9 +239,9 @@ const EditProfile = ({
         )}
 
         <input type="submit" className="btn btn-primary my-1" />
-        <a className="btn btn-light my-1" href="dashboard.html">
+        <Link className="btn btn-light my-1" to="/dashboard">
           Go Back
-        </a>
+        </Link>
       </form>
     </Fragment>
   );
