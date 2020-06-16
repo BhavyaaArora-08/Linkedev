@@ -8,6 +8,8 @@ import {
   AUTH_ERROR,
   LOGIN_SUCCESS,
   LOGIN_FAIL,
+  LOGOUT,
+  CLEAR_PROFILE,
 } from "./types";
 import setAuthToken from "../../utils/setAuthToken";
 
@@ -81,5 +83,34 @@ export const loginUser = ({ email, password }) => async (dispatch) => {
       });
     }
     dispatch({ type: LOGIN_FAIL });
+  }
+};
+
+// Logout user
+export const logoutUser = (token) => async (dispatch) => {
+  const config = {
+    headers: {
+      "Content-Type": "application/json",
+      "x-auth-token": token,
+    },
+  };
+
+  try {
+    dispatch({ type: CLEAR_PROFILE });
+    await axios.post("/api/users/logout", null, config);
+    dispatch({ type: LOGOUT });
+
+    dispatch(
+      setAlert("success", "You have logged out successfully!", uuidv4())
+    );
+  } catch (err) {
+    const errors = err.response.data.errors;
+    console.log(errors);
+    if (errors) {
+      errors.forEach((error) => {
+        console.log(error);
+        dispatch(setAlert("danger", error.msg, uuidv4()));
+      });
+    }
   }
 };

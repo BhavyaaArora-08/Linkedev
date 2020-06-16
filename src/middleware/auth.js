@@ -6,6 +6,7 @@ const auth = async (req, res, next) => {
   // Get token from the header
   const token = req.header("x-auth-token");
   if (!token) {
+    console.log("heyey");
     return res.status(401).json({ msg: "Authorization denied" });
   }
 
@@ -15,7 +16,6 @@ const auth = async (req, res, next) => {
 
     const user = await User.findOne({
       _id: decoded.user.id,
-      "tokens.token": token,
     }).select("-password");
 
     if (!user) {
@@ -28,7 +28,7 @@ const auth = async (req, res, next) => {
     next();
   } catch (e) {
     if (e.message) console.error(e.message);
-    res.status(401).send({ error: "Please Authenticate" });
+    res.status(401).send({ errors: [{ msg: "Please Authenticate" }] });
   }
 };
 

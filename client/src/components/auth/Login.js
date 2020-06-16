@@ -3,6 +3,7 @@ import { connect } from "react-redux";
 import { Link, Redirect } from "react-router-dom";
 // import { v4 as uuidv4 } from "uuid";
 import { loginUser } from "../../redux/actions/auth";
+// import { loadProfile } from "../../redux/actions/profile";
 
 import { setAlert } from "../../redux/actions/alert";
 
@@ -21,7 +22,6 @@ const Login = (props) => {
 
   const onChange = (e) => {
     setFormData({ ...formData, [e.target.name]: e.target.value });
-    console.log(email, password);
   };
 
   const onSubmit = (e) => {
@@ -76,6 +76,7 @@ const Login = (props) => {
 const mapStateToProps = (state, props) => {
   return {
     isAuthorized: state.auth.isAuthenticated,
+    token: state.auth.token,
   };
 };
 

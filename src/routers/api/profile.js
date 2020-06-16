@@ -22,7 +22,9 @@ router.get("/me", auth, async (req, res) => {
       return res.status(404).json({ msg: "There is no profile for this user" });
     }
 
+    console.log("wth1");
     res.json(profile);
+    console.log("wth1");
   } catch (e) {
     console.error(e.message);
     res.status(500).send("Server error");
@@ -142,8 +144,7 @@ router.post(
         res.send(userProfile);
       }
     } catch (e) {
-      console.error(e.message);
-      res.status(500).send("Server error");
+      res.status(500).send({ errors: [{ msg: "Server Error" }] });
     }
   }
 );
