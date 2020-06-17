@@ -6,6 +6,7 @@ import {
   CREATE_PROFILE,
   GET_PROFILE,
   PROFILE_ERROR,
+  CLEAR_PROFILE,
 } from "./types";
 
 export const getCurrentProfile = () => async (dispatch) => {
@@ -179,5 +180,67 @@ export const deleteAccount = () => async (dispatch) => {
         payload: { msg: err.response.statusText, status: err.response.status },
       });
     }
+  }
+};
+
+// Get all the profiles
+export const getProfiles = () => async (dispatch) => {
+  dispatch({ type: CLEAR_PROFILE });
+  try {
+    const res = await axios.get("/api/profile");
+    dispatch({ type: "ALL_PROFILES", payload: res.data });
+  } catch (err) {
+    const errors = err.response.data.errors;
+    if (errors) {
+      errors.forEach((error) => {
+        console.log(error);
+        dispatch(setAlert("danger", error.msg, uuidv4()));
+      });
+    }
+    dispatch({
+      type: PROFILE_ERROR,
+      payload: { msg: err.response.statusText, status: err.response.status },
+    });
+  }
+};
+
+// Get a profile by id
+export const getProfileById = (id) => async (dispatch) => {
+  dispatch({ type: CLEAR_PROFILE });
+  try {
+    const res = await axios.get(`/api/profile/${id}`);
+    dispatch({ type: "GET_PROFILE", payload: res.data });
+  } catch (err) {
+    const errors = err.response.data.errors;
+    if (errors) {
+      errors.forEach((error) => {
+        console.log(error);
+        dispatch(setAlert("danger", error.msg, uuidv4()));
+      });
+    }
+    dispatch({
+      type: PROFILE_ERROR,
+      payload: { msg: err.response.statusText, status: err.response.status },
+    });
+  }
+};
+
+// Get repos of a user
+export const getRepos = (username) => async (dispatch) => {
+  try {
+    const res = await axios.get(`/api/profile/github/${username}`);
+    dispatch({ type: "GET_REPOS", payload: res.data });
+  } catch (err) {
+    const errors = err.response.data.errors;
+    if (errors) {
+      errors.forEach((error) => {
+        console.log(error);
+        dispatch(setAlert("danger", error.msg, uuidv4()));
+      });
+    }
+    dispatch({
+      type: PROFILE_ERROR,
+      payload: { msg: err.response.statusText, status: err.response.status },
+    });
   }
 };

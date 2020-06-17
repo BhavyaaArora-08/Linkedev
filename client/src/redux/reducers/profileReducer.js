@@ -22,7 +22,20 @@ export default (state = initialState, action) => {
         loading: false,
       };
     }
-
+    case "ALL_PROFILES": {
+      return {
+        ...state,
+        profiles: action.payload,
+        loading: false,
+      };
+    }
+    case "GET_REPOS": {
+      return {
+        ...state,
+        repos: action.payload,
+        loading: false,
+      };
+    }
     case PROFILE_ERROR: {
       return {
         ...state,
