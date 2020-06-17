@@ -6,7 +6,7 @@ import Spinner from "../layout/spinner";
 import { createProfile, getCurrentProfile } from "../../redux/actions/profile";
 import DashboardActions from "./DashboardActions";
 import Profile from "./Profile";
-// import { deleteAccount } from "../../redux/actions/profile";
+import { deleteAccount } from "../../redux/actions/profile";
 
 const Dashboard = ({
   getCurrentProfile,
@@ -32,8 +32,7 @@ const Dashboard = ({
           <br></br>
           <Profile />
           <div className="my-2">
-            {/* onClick={() => deleteAccount()} */}
-            <button className="btn btn-danger">
+            <button onClick={() => deleteAccount()} className="btn btn-danger">
               <i className="fas fa-user-minus"> </i>
               {"  "}Delete Account
             </button>
@@ -61,10 +60,9 @@ const mapStateToProps = (state) => {
 
 export default connect(mapStateToProps, {
   logoutUser,
+  deleteAccount,
   getCurrentProfile,
 })(Dashboard);
-
-// deleteAccount,
 
 /**
  * 

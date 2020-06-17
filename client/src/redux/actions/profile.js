@@ -156,28 +156,28 @@ export const deleteExperience = (id) => async (dispatch) => {
   }
 };
 
-// // Delete Account
-// export const deleteAccount = () => async (dispatch) => {
-//   try {
-//     await axios.delete("/api/profile/me");
-//     console.log("hey");
-//     dispatch({ type: "CLEAR_PROFILE" });
-//     dispatch({ type: "ACCOUNT_DELETED" });
-
-//     dispatch(
-//       setAlert("danger", "Your account has been permanently deleted", uuidv4())
-//     );
-//   } catch (err) {
-//     const errors = err.response.data.errors;
-//     if (errors) {
-//       errors.forEach((error) => {
-//         console.log(error);
-//         dispatch(setAlert("danger", error.msg, uuidv4()));
-//       });
-//     }
-//     dispatch({
-//       type: PROFILE_ERROR,
-//       payload: { msg: err.response.statusText, status: err.response.status },
-//     });
-//   }
-// };
+// Delete Account
+export const deleteAccount = () => async (dispatch) => {
+  if (window.confirm("Are you sure? This can NOT be undone!")) {
+    try {
+      await axios.delete("/api/profile/me");
+      dispatch({ type: "CLEAR_PROFILE" });
+      dispatch({ type: "ACCOUNT_DELETED" });
+      dispatch(
+        setAlert("", "Your account has been permanently deleted", uuidv4())
+      );
+    } catch (err) {
+      const errors = err.response.data.errors;
+      if (errors) {
+        errors.forEach((error) => {
+          console.log(error);
+          dispatch(setAlert("danger", error.msg, uuidv4()));
+        });
+      }
+      dispatch({
+        type: PROFILE_ERROR,
+        payload: { msg: err.response.statusText, status: err.response.status },
+      });
+    }
+  }
+};
