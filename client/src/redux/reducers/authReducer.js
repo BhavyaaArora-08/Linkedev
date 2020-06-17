@@ -23,6 +23,14 @@ export default (state = initialState, action) => {
         loading: true,
       };
     }
+    // case "ACCOUNT_DELETED":
+    //   return {
+    //     ...state,
+    //     token: null,
+    //     isAuthenticated: false,
+    //     loading: false,
+    //     user: null,
+    //   };
     case USER_LOADED: {
       return {
         ...state,

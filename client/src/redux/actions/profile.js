@@ -98,7 +98,7 @@ export const addEducation = (body) => async (dispatch) => {
   try {
     const res = await axios.put("/api/profile/education", body, config);
     dispatch({ type: GET_PROFILE, payload: res.data });
-    dispatch(setAlert("success", "Education Added"));
+    dispatch(setAlert("success", "Education Added", uuidv4()));
   } catch (err) {
     const errors = err.response.data.errors;
     if (errors) {
@@ -113,3 +113,71 @@ export const addEducation = (body) => async (dispatch) => {
     });
   }
 };
+
+// Delete education
+export const deleteEducation = (id) => async (dispatch) => {
+  try {
+    const res = await axios.delete(`/api/profile/education/${id}`);
+    dispatch({ type: GET_PROFILE, payload: res.data });
+    dispatch(setAlert("danger", "Education Deleted", uuidv4()));
+  } catch (err) {
+    const errors = err.response.data.errors;
+    if (errors) {
+      errors.forEach((error) => {
+        console.log(error);
+        dispatch(setAlert("danger", error.msg, uuidv4()));
+      });
+    }
+    dispatch({
+      type: PROFILE_ERROR,
+      payload: { msg: err.response.statusText, status: err.response.status },
+    });
+  }
+};
+
+// Delete experience
+export const deleteExperience = (id) => async (dispatch) => {
+  try {
+    const res = await axios.delete(`/api/profile/experience/${id}`);
+    dispatch({ type: GET_PROFILE, payload: res.data });
+    dispatch(setAlert("danger", "Experience Deleted", uuidv4()));
+  } catch (err) {
+    const errors = err.response.data.errors;
+    if (errors) {
+      errors.forEach((error) => {
+        console.log(error);
+        dispatch(setAlert("danger", error.msg, uuidv4()));
+      });
+    }
+    dispatch({
+      type: PROFILE_ERROR,
+      payload: { msg: err.response.statusText, status: err.response.status },
+    });
+  }
+};
+
+// // Delete Account
+// export const deleteAccount = () => async (dispatch) => {
+//   try {
+//     await axios.delete("/api/profile/me");
+//     console.log("hey");
+//     dispatch({ type: "CLEAR_PROFILE" });
+//     dispatch({ type: "ACCOUNT_DELETED" });
+
+//     dispatch(
+//       setAlert("danger", "Your account has been permanently deleted", uuidv4())
+//     );
+//   } catch (err) {
+//     const errors = err.response.data.errors;
+//     if (errors) {
+//       errors.forEach((error) => {
+//         console.log(error);
+//         dispatch(setAlert("danger", error.msg, uuidv4()));
+//       });
+//     }
+//     dispatch({
+//       type: PROFILE_ERROR,
+//       payload: { msg: err.response.statusText, status: err.response.status },
+//     });
+//   }
+// };

@@ -109,8 +109,6 @@ router.get("/", auth, (req, res) => {
 router.post("/logout", auth, async (req, res) => {
   try {
     const user = req.user;
-    console.log(user);
-    console.log(req.token);
     req.user.tokens = req.user.tokens.filter((token) => {
       return token.token !== req.token;
     });

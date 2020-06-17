@@ -22,6 +22,7 @@ export default (state = initialState, action) => {
         loading: false,
       };
     }
+
     case PROFILE_ERROR: {
       return {
         ...state,
@@ -29,14 +30,14 @@ export default (state = initialState, action) => {
         loading: false,
       };
     }
-    case CLEAR_PROFILE: {
-      return {
-        ...state,
-        userProfile: null,
-        repos: [],
-        loading: false,
-      };
-    }
+    // case "CLEAR_PROFILE": {
+    //   return {
+    //     ...state,
+    //     userProfile: null,
+    //     repos: [],
+    //     loading: false,
+    //   };
+    // }
     case CREATE_PROFILE: {
       console.log(action.payload);
       return {
