@@ -1,1 +1,4 @@
-node_modules
+/node_modules
+/config
+/client/node_modules
+/temp.js
